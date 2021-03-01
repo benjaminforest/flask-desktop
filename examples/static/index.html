@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Simple html form</title>
+</head>
+
+<body>
+    <div>
+        <form id='myform' action="/post_form" method="post">
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname" name="fname"><br>
+            <label for="lname">Last pouet:</label><br>
+            <input type="text" id="lname" name="lname">
+            <div>
+                <input type="submit" value="Send!">
+            </div>
+        </form>
+    </div>
+    <div id="send_result">
+    </div>
+</body>
+
+<script>
+
+var form = document.getElementById("myform");
+
+form.onsubmit = function (e) {
+  // stop the regular form submission
+  e.preventDefault();
+
+  // collect the form data while iterating over the inputs
+  var data = {};
+  for (var i = 0, ii = form.length; i < ii; ++i) {
+    var input = form[i];
+    if (input.name) {
+      data[input.name] = input.value;
+    }
+  }
+
+  // construct an HTTP request
+  var xhr = new XMLHttpRequest();
+  xhr.open(form.method, form.action, true);
+  xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+  // send the collected data as JSON
+  xhr.send(JSON.stringify(data));
+  xhr.onloadend = function () {
+    var post_res = document.getElementById("send_result");
+    post_res.innerHTML = xhr.response;
+  };
+};
+
+</script>
+
+</html>
