@@ -6,9 +6,7 @@ import PySide2.QtWebEngine as web_engine
 import PySide2.QtWebEngineWidgets as web_widgets
 import PySide2.QtGui as gui
 
-
 default_url = "127.0.0.1"
-
 
 class WebUI(object):
     def __init__(self, app, url=default_url, port=5000,
@@ -24,6 +22,8 @@ class WebUI(object):
         self.app.setWindowIcon(gui.QIcon(icon_path))
         self.app.setApplicationName(app_name)
         self.view = web_widgets.QWebEngineView(self.app.activeModalWidget())
+        self.view.page().profile().setHttpCacheType(web_widgets.QWebEngineProfile.NoCache)
+
         self.page = CustomWebEnginePage(self.view)
         self.view.setPage(self.page)
 
